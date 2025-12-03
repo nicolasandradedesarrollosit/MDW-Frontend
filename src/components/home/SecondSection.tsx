@@ -1,7 +1,6 @@
 import {
     Card,
-    CardBody,
-    CardFooter
+    CardBody
 } from "@heroui/card"
 
 import {useNavigate} from "react-router-dom"
