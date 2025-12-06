@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setAuth, logOut, setLoading } from "@/redux/authUser/sliceAuth";
 import { useEffect } from "react";
-import { checkSession } from "@/services/checkSession";
+import { checkSession } from "@/services/userService";
 import type { RootState } from "@/redux/store";
 
 export const useAuth = () => {

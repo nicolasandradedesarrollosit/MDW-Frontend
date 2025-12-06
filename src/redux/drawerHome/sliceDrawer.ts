@@ -1,25 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface DrawerState {
-    open: boolean;
+    open: Record<string, boolean>;
 }
 
 const initialState: DrawerState = {
-    open: false,
+    open: {} as Record<string, boolean>,
 };
 
 const drawerSlice = createSlice({
     name: "drawer",
     initialState,
     reducers: {
-        openDrawer: (state) => {
-            state.open = true;
+        openDrawer: (state, action) => {
+            state.open[action.payload] = true;
         },
-        closeDrawer: (state) => {
-            state.open = false;
+        closeDrawer: (state, action) => {
+            state.open[action.payload] = false;
         },
-        alternateDrawer: (state) => {
-            state.open = !state.open;
+        alternateDrawer: (state, action) => {
+            state.open[action.payload] = !state.open[action.payload];
         }
     }
 });

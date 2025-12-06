@@ -5,7 +5,7 @@ import { Button } from "@heroui/button";
 import { useState, useEffect } from "react";
 
 export default function DrawerDataUser() {
-    const { isOpen, onClose } = useDrawer();
+    const { isOpen, onClose } = useDrawer('profile');
     const { authState } = useAuth();
     const [mobile, setMobile] = useState(false);
 

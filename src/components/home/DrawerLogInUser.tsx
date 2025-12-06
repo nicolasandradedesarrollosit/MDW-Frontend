@@ -25,10 +25,10 @@ import {
 
 import { useDrawer } from '@/hooks/useDrawer';
 
-import { authService } from '../../services/authService';
+import { authService } from '../../services/userService';
 
 export default function DrawerLogInUser() {
-    const { isOpen, onClose } = useDrawer();
+    const { isOpen, onClose } = useDrawer('profile');
 
     const [mobile, setMobile] = useState(false);
     const [loading, setLoading] = useState(false);
