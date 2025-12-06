@@ -1,14 +1,18 @@
-import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 
 import {Button} from "@heroui/button"
 
 import {Link} from "@heroui/link"
 
+import {useDrawer} from "@/hooks/useDrawer";
+
 export default function Hero() {
 
-    const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const { onOpen, isOpen } = useDrawer();
+
+    console.log('Hero - Drawer isOpen:', isOpen);
 
     return (
         <header className="flex flex-col w-full h-[100vh] bg-gradient-to-b from-white via-gray-50 to-white items-center justify-start">
@@ -48,7 +52,7 @@ export default function Hero() {
                         </li>
                         <li>
                             <button 
-                                onClick={() => {navigate('')}}
+                                onClick={() => {console.log('Carrito de compras')}}
                                 className="transition-all hover:scale-110 hover:text-blue-600 duration-200 p-2 hover:bg-gray-100 rounded-full cursor-pointer"
                                 aria-label="Carrito de compras"
                             >
@@ -59,7 +63,10 @@ export default function Hero() {
                         </li>
                         <li>
                             <button 
-                                onClick={() => {navigate('')}}
+                                onClick={() => {
+                                    console.log('Click en icono de usuario');
+                                    onOpen();
+                                }}
                                 className="transition-all hover:scale-110 hover:text-blue-600 duration-200 p-2 hover:bg-gray-100 rounded-full cursor-pointer"
                                 aria-label="Perfil de usuario"
                             >
