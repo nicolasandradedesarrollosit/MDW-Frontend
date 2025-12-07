@@ -1,8 +1,12 @@
 import { Button } from "@heroui/button"
-
+import { useModal } from "@/hooks/useModal"
 import { useState } from "react"
+import FilterBy from "./FilterBy";
+import SortBy from "./SortBy";
 
 export default function FirstSection() {
+    const { onOpen: onOpenSort } = useModal('sortModal');
+    const { onOpen: onOpenFilter } = useModal('filterModal');
 
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
@@ -23,13 +27,13 @@ export default function FirstSection() {
     ];
 
     const svg1 = (
-        <svg className="h-[20px] w-[20px]" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
+        <svg className="h-[30px] w-[30px]" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
             <path fill="#ffffff" d="M9 5a1 1 0 1 0 0 2a1 1 0 0 0 0-2zM6.17 5a3.001 3.001 0 0 1 5.66 0H19a1 1 0 1 1 0 2h-7.17a3.001 3.001 0 0 1-5.66 0H5a1 1 0 0 1 0-2h1.17zM15 11a1 1 0 1 0 0 2a1 1 0 0 0 0-2zm-2.83 0a3.001 3.001 0 0 1 5.66 0H19a1 1 0 1 1 0 2h-1.17a3.001 3.001 0 0 1-5.66 0H5a1 1 0 1 1 0-2h7.17zM9 17a1 1 0 1 0 0 2a1 1 0 0 0 0-2zm-2.83 0a3.001 3.001 0 0 1 5.66 0H19a1 1 0 1 1 0 2h-7.17a3.001 3.001 0 0 1-5.66 0H5a1 1 0 1 1 0-2h1.17z"/>
         </svg>
     )
 
     const svg2 = (
-        <svg className="h-[20px] w-[20px]" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 20 20" fill="#ffffff"><g fill="#ffffff" fill-rule="evenodd" clip-rule="evenodd">
+        <svg className="h-[30px] w-[30px]" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 20 20" fill="#ffffff"><g fill="#ffffff" fillRule="evenodd" clipRule="evenodd">
             <path d="M10.293 7.707a1 1 0 0 1 0-1.414l3-3a1 1 0 1 1 1.414 1.414l-3 3a1 1 0 0 1-1.414 0Z"/><path d="M17.707 7.707a1 1 0 0 1-1.414 0l-3-3a1 1 0 0 1 1.414-1.414l3 3a1 1 0 0 1 0 1.414Z"/><path d="M14 5a1 1 0 0 1 1 1v8a1 1 0 1 1-2 0V6a1 1 0 0 1 1-1Zm-4.293 7.293a1 1 0 0 1 0 1.414l-3 3a1 1 0 0 1-1.414-1.414l3-3a1 1 0 0 1 1.414 0Z"/>
             <path d="M2.293 12.293a1 1 0 0 1 1.414 0l3 3a1 1 0 1 1-1.414 1.414l-3-3a1 1 0 0 1 0-1.414Z"/><path d="M6 15a1 1 0 0 1-1-1V6a1 1 0 1 1 2 0v8a1 1 0 0 1-1 1Z"/></g>
         </svg>
@@ -69,6 +73,7 @@ export default function FirstSection() {
                         size="md" 
                         color="default" 
                         className="bg-black text-white hover:bg-gray-800 flex-1 md:flex-none text-xs md:text-sm"
+                        onPress={onOpenFilter}
                     >
                         Filtrar
                     </Button>
@@ -78,11 +83,14 @@ export default function FirstSection() {
                         size="md" 
                         color="default" 
                         className="bg-black text-white hover:bg-gray-800 flex-1 md:flex-none text-xs md:text-sm"
+                        onPress={onOpenSort}
                     >
                         Ordenar
                     </Button>
                 </div>
             </div>
+            <FilterBy />
+            <SortBy />
         </section>
     )
 }

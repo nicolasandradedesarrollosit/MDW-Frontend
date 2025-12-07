@@ -1,13 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authUser/sliceAuth";
-import drawerReducer from "./drawerHome/sliceDrawer";
+import drawerReducer from "./drawer/sliceDrawer";
 import productsReducer from "./products/sliceProducts";
+import modalReducer from "./modal/sliceModal";
 
 export const store = configureStore({
     reducer: {
         auth: authReducer,
         drawer: drawerReducer,
-        products: productsReducer
+        products: productsReducer,
+        modal: modalReducer
     },
 });
 

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import {openDrawer, closeDrawer, alternateDrawer} from "@/redux/drawerHome/sliceDrawer";
+import {openDrawer, closeDrawer, alternateDrawer} from "@/redux/drawer/sliceDrawer";
 import type { RootState, AppDispatch } from "@/redux/store";
 
 export const useDrawer = (drawerId: string) => {
