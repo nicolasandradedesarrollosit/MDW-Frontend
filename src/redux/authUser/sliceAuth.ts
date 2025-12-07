@@ -5,6 +5,10 @@ export interface AuthUserState {
     name: string;
     lastName: string;
     age?: number | string | null;
+    isAdmin?: boolean;
+    features?: {
+        adminPanel?: boolean;
+    };
     isAuthenticated: boolean;
     loading: boolean;
 }
@@ -14,6 +18,8 @@ export const initialState: AuthUserState = {
     name: '',
     lastName: '',
     age: null,
+    isAdmin: false,
+    features: undefined,
     isAuthenticated: false,
     loading: true,
 };
@@ -27,6 +33,8 @@ const authSlice = createSlice({
             state.name = action.payload.name;
             state.lastName = action.payload.lastName;
             state.age = action.payload.age;
+            state.isAdmin = action.payload.isAdmin;
+            state.features = action.payload.features;
             state.isAuthenticated = action.payload.isAuthenticated;
             state.loading = action.payload.loading;
         },
@@ -35,6 +43,8 @@ const authSlice = createSlice({
             state.name = '';
             state.lastName = '';
             state.age = null;
+            state.isAdmin = false;
+            state.features = undefined;
             state.isAuthenticated = false;
         },
         setLoading: (state, action: PayloadAction<boolean>) => {

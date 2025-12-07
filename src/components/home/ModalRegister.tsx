@@ -172,10 +172,7 @@ export default function ModalRegister() {
         }
         finally {
             setIsLoading(false);
-            // Temporalmente deshabilitado para debug
-            // setTimeout(() => {
-            //     window.location.reload();
-            // }, 300);
+            window.location.reload();
         }
     }
 
