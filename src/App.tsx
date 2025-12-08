@@ -5,11 +5,14 @@ import Admin from "./pages/admin";
 import AdminProducts from "./pages/admin-products";
 import { Provider } from "./provider";
 import { useProducts } from "./hooks/useProducts";
+import {useAuth} from "./hooks/useAuth";
 import { ProtectedRoute } from "./hooks/ProtectedRoute";
 
 
 function App() {
   useProducts();
+  // useAuth();
+
   return (
     <Provider>
       <Routes>
