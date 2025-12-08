@@ -11,7 +11,7 @@ import { ProtectedRoute } from "./hooks/ProtectedRoute";
 
 function App() {
   useProducts();
-  // useAuth();
+  useAuth();
 
   return (
     <Provider>
