@@ -2,8 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/home"
 import Products from "./pages/products";
 import Admin from "./pages/admin";
-import DrawerFather from "./components/home/DrawerFather";
-import DrawerCartFather from "./components/home/DrawerCartFather";
+import AdminProducts from "./pages/admin-products";
 import { Provider } from "./provider";
 import { useProducts } from "./hooks/useProducts";
 import { ProtectedRoute } from "./hooks/ProtectedRoute";
@@ -24,9 +23,15 @@ function App() {
                 </ProtectedRoute>
             } 
         />
+        <Route 
+            path="/admin/products" 
+            element={
+                <ProtectedRoute requireAdmin>
+                    <AdminProducts />
+                </ProtectedRoute>
+            } 
+        />
       </Routes>
-      <DrawerFather />
-      <DrawerCartFather /> 
     </Provider>
   );
 }

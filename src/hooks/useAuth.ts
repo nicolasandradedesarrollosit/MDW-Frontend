@@ -3,10 +3,11 @@ import { setAuth, logOut, setLoading } from "@/redux/authUser/sliceAuth";
 import { useEffect } from "react";
 import { checkSession } from "@/services/userService";
 import type { RootState } from "@/redux/store";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const useAuth = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useDispatch();
     const authState = useSelector((state: RootState) => state.auth);
 
@@ -28,9 +29,15 @@ export const useAuth = () => {
                         isAuthenticated: true,
                         loading: false,
                     }));
-                    if (authState.features?.adminPanel) {
+                    if (result.features?.adminPanel) {
                         console.log('useAuth - Usuario es admin');
-                        navigate('/admin');
+                        // Solo redirigimos a /admin si el usuario NO está ya dentro de una ruta /admin
+                        // Esto evita que el hook fuerce una redirección cada vez que se monta un componente
+                        // dentro del panel de administración (p. ej. al navegar a /admin/products).
+                        if (!location.pathname.startsWith('/admin')) {
+                            console.log('useAuth - Navegando a /admin ya que el usuario tiene el feature adminPanel');
+                            navigate('/admin');
+                        }
                     }
                 }
                 else {
@@ -60,8 +67,13 @@ export const useAuth = () => {
                 }))
             }
         };
-        verifySession();
-    }, [dispatch]);
+        // Solo verificamos la sesión si aún no se ha verificado (loading === true).
+        // Esto evita llamadas duplicadas a /api/check-session si varios componentes
+        // usan este hook y se montan casi al mismo tiempo (por ejemplo NavLat y ModalLogOut).
+        if (authState.loading) {
+            verifySession();
+        }
+    }, [dispatch, navigate, location, authState.loading]);
 
     const handleLogout = () => {
         dispatch(logOut());

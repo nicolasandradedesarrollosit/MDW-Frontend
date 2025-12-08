@@ -18,8 +18,11 @@ export const useProducts = () => {
                 console.error('useProducts - Error fetching products:', error);
             }
         };
-        fetchProducts();
-    }, [dispatch]);
+        // Evitar llamadas duplicadas si ya tenemos productos cargados
+        if (!productsState.products || productsState.products.length === 0) {
+            fetchProducts();
+        }
+    }, [dispatch, productsState.products]);
 
     return {
         productsState

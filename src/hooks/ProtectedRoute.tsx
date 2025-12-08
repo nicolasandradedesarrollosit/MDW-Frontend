@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import {useSelector} from "react-redux";
 import { selectAuth } from "@/redux/authUser/sliceAuth";
+import { useRef, useEffect } from "react";
 
 interface ProtectedRouteProps {
     requireAdmin?: boolean;
@@ -11,7 +12,20 @@ export const ProtectedRoute = ({ requireAdmin = false, children }: ProtectedRout
     const auth = useSelector(selectAuth);
     const { isAuthenticated, loading, isAdmin } = auth;
 
-    if (loading) console.log('ProtectedRoute - Cargando estado de autenticación...');
+    const logRef = useRef({ loadingLogged: false });
+    useEffect(() => {
+        if (loading && !logRef.current.loadingLogged) {
+            console.log('ProtectedRoute - Cargando estado de autenticación...');
+            logRef.current.loadingLogged = true;
+        }
+        if (!loading) {
+            logRef.current.loadingLogged = false;
+        }
+    }, [loading]);
+
+    if (loading) {
+        return null; 
+    }
 
     if (!isAuthenticated) {
         console.log('ProtectedRoute - Usuario no autenticado, redirigiendo a /');

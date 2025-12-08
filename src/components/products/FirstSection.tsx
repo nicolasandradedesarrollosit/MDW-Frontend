@@ -44,7 +44,7 @@ export default function FirstSection() {
             <div className="flex flex-col gap-4 md:gap-8 justify-center items-center text-center">
                 <p className="text-black/60 text-sm md:text-base lg:text-lg font-light uppercase tracking-wider">Nuestros Productos</p>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black leading-tight">
-                    Elegancia donde estés
+                    Personalidad donde estés
                 </h1>
             </div>
             <div className="flex flex-col md:flex-row justify-between items-center w-full max-w-7xl gap-6 md:gap-8">
