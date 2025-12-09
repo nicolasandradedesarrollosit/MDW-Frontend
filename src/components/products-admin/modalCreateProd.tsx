@@ -247,7 +247,6 @@ export default function ModalCreateProd() {
                             categoriesState.categories.map((category: any) => (
                                 <SelectItem 
                                     key={category._id}
-                                    value={category._id}
                                     classNames={{
                                         base: "text-white",
                                     }}
@@ -256,7 +255,7 @@ export default function ModalCreateProd() {
                                 </SelectItem>
                             ))
                         ) : (
-                            <SelectItem key="no-categories" isDisabled>
+                            <SelectItem key="no-categories">
                                 No hay categorías disponibles
                             </SelectItem>
                         )}
