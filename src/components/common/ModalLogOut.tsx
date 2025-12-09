@@ -8,7 +8,6 @@ import {Modal,
 import { logOut as logOutService } from "@/services/userService"
 
 import { useAuth } from "@/hooks/useAuth";
-
 import { Avatar } from "@heroui/avatar";
 
 import {useModal} from "@/hooks/useModal";
@@ -22,7 +21,6 @@ export default function ModalLogOut() {
     const {isOpen, onOpenChange} = useModal('logOutModal');
     
     const [isMobile, setIsMobile] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -37,15 +35,10 @@ export default function ModalLogOut() {
 
     const handleLogOut = async () => {
         try {
-            setIsLoading(true);
             await logOutService(); 
             logOut(); 
         } catch (error) {
             console.error('Error al cerrar sesión:', error);
-            // Even if the service fails (CORS, network), ensure client state is cleared
-            logOut();
-        } finally {
-            setIsLoading(false);
         }
     };
     return (
@@ -90,7 +83,7 @@ export default function ModalLogOut() {
                                     color="default" 
                                     variant="light" 
                                     onPress={onClose}
-                                    className="w-full sm:w-auto bg-white text-black"
+                                    className="w-full sm:w-auto"
                                     size={isMobile ? "md" : "lg"}
                                 >
                                     Cancelar
@@ -98,11 +91,10 @@ export default function ModalLogOut() {
                                 <Button 
                                     color="danger"
                                     variant="solid"
-                                    onPress={async () => {
-                                        await handleLogOut();
+                                    onPress={() => {
+                                        handleLogOut();
                                         onClose();
                                     }}
-                                    isLoading={isLoading}
                                     className="w-full sm:w-auto text-sm sm:text-base"
                                     size={isMobile ? "md" : "lg"}
                                 >

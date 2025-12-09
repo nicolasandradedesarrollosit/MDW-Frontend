@@ -100,7 +100,7 @@ export async function logOut() {
     try {
         await fetch(`${url}/api/logout`, {
             headers: {
-                'Content-Type': 'application/json',
+                aplication: 'application/json',
             },
             method: 'POST',
             credentials: 'include',
