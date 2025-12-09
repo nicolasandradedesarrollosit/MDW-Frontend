@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setProductSizes } from "@/redux/productSize/sliceProductSize";
+import { setProductSizes, setFetched, setLoaded } from "@/redux/productSize/sliceProductSize";
 import { useEffect, useRef } from "react";
 import { getProductSizes } from "@/services/productSizeService";
 import type { RootState } from "@/redux/store";
