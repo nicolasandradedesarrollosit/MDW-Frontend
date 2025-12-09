@@ -86,6 +86,7 @@ export default function ModalCreateProdSize() {
                 console.warn('createProdSize - id_product does not match ObjectId format:', params.id_product);
             }
 
+            console.debug('createProdSize - sending params:', params);
             await createProductSize(params);
 
             setFormData({
@@ -102,7 +103,9 @@ export default function ModalCreateProdSize() {
         }
         finally {
             setIsLoading(false);
-            window.location.reload();
+            // Force reload of current path so the new product size is visible — keep path explicit
+            const currentPath = window.location.pathname + window.location.search;
+            setTimeout(() => { window.location.assign(currentPath); }, 150);
         }
     }
 

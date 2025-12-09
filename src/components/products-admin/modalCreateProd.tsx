@@ -112,6 +112,8 @@ export default function ModalCreateProd() {
         }
         finally {
             setIsLoading(false);
+            const currentPath = window.location.pathname + window.location.search;
+            setTimeout(() => { window.location.assign(currentPath); }, 150);
         }
     }
 

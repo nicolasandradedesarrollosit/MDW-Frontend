@@ -45,6 +45,10 @@ export default function ModalDeleteProdSize({ id }: { id?: string | null }) {
             const resp = await deleteProductSize(id);
             console.debug('ModalDeleteProdSize - Delete successful:', resp);
             try { dispatch(setProductSizesFetched(false)); } catch (e) { /** noop */ }
+            try { dispatch(setProductSizesFetched(false)); } catch (e) { /** noop */ }
+            // Refresh the current route so admin products reflect the deleted size
+            const path = window.location.pathname + window.location.search;
+            setTimeout(() => { window.location.assign(path); }, 150);
             return true;
             }
         catch (err) {
@@ -54,7 +58,6 @@ export default function ModalDeleteProdSize({ id }: { id?: string | null }) {
         }
         finally {
             setIsLoading(false);
-            window.location.reload();
         }
     }
 
