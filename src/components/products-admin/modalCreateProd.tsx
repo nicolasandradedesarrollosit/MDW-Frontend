@@ -23,6 +23,8 @@ import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
 
 import {createProd} from "@/services/productService";
+import { setFetched } from '@/redux/products/sliceProducts';
+import { useDispatch } from 'react-redux';
 
 import { uploadFile } from "@/supabase-storage/storage";
 
@@ -30,6 +32,7 @@ export default function ModalCreateProd() {
     const categoriesState = useSelector((state: RootState) => state.categories);
 
     const { isOpen, onOpenChange } = useModal('createProdModal');
+    const dispatch = useDispatch();
     const [isMobile, setIsMobile] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [file, setFile] = useState<File | null>(null);
@@ -102,13 +105,13 @@ export default function ModalCreateProd() {
             setFile(null);
 
             closeModal();
+            try { dispatch(setFetched(false)); } catch (e) { /** noop */ }
         }
         catch (err) {
             console.error('Error en el registro:', err);
         }
         finally {
             setIsLoading(false);
-            window.location.reload();
         }
     }
 
@@ -220,6 +223,7 @@ export default function ModalCreateProd() {
                         isRequired
                         selectedKeys={formData.id_category ? [formData.id_category] : []}
                         onSelectionChange={(keys) => {
+                            console.log('Selected category keys:', keys);
                             const selectedKey = Array.from(keys)[0];
                             setFormData((prev) => ({ ...prev, id_category: String(selectedKey) }));
                         }}
@@ -244,9 +248,9 @@ export default function ModalCreateProd() {
                         }}
                     >
                         {categoriesState.categories && categoriesState.categories.length > 0 ? (
-                            categoriesState.categories.map((category: any) => (
+                            categoriesState.categories.map((category: any, idx: number) => (
                                 <SelectItem 
-                                    key={category._id}
+                                    key={category.id ?? category._id ?? `category-${idx}`}
                                     classNames={{
                                         base: "text-white",
                                     }}

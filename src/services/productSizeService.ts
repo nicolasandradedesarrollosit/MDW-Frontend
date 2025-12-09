@@ -4,10 +4,13 @@ export async function getProductSizes() {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-        }
+        },
+        credentials: 'include',
     });
+    // 304 not modified -> signal no change
+    if (response.status === 304) return null as any;
     if (!response.ok) return [];
-    
+
     const data = await response.json();
     return data;
 }
@@ -20,15 +23,22 @@ export async function createProductSize(productSizeData: {id_product: string, si
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify(productSizeData)
         });
 
-        if (!response.ok) return console.error('Failed to create product size');
         const data = await response.json();
+        if (!response.ok) {
+            console.error('Failed to create product size', data);
+            const err: any = new Error(data?.message || 'Failed to create product size');
+            if (data?.details) err.details = data.details;
+            throw err;
+        }
         return data;
     }
     catch (err) {
         console.error('Error creating product size:', err);
+        throw err;
     }
 }
 
@@ -39,7 +49,8 @@ export async function deleteProductSize(id: string) {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-            }
+            },
+            credentials: 'include'
         });
         if (!response.ok) return console.error('Failed to delete product size');
         const data = await response.json();

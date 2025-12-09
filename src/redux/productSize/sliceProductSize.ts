@@ -15,11 +15,13 @@ export interface ProductSize {
 export interface ProductSizeState {
     sizes: ProductSize[];
     loaded: boolean; // indicates whether a first fetch attempt has completed
+    fetched: boolean;
 }
 
 export const initialProductSizeState: ProductSizeState = {
     sizes: [],
     loaded: false,
+    fetched: false,
 };
 
 export const productSizeSlice = createSlice({
@@ -29,11 +31,18 @@ export const productSizeSlice = createSlice({
         setProductSizes(state, action: PayloadAction<ProductSize[]>) {
             state.sizes = action.payload;
             state.loaded = true;
+            state.fetched = true;
+        }
+        ,setLoaded(state, action: PayloadAction<boolean>) {
+            state.loaded = action.payload;
+        }
+        ,setFetched(state, action: PayloadAction<boolean>) {
+            state.fetched = action.payload;
         }
     }
 });
 
-export const {setProductSizes} = productSizeSlice.actions;
+export const {setProductSizes, setLoaded, setFetched} = productSizeSlice.actions;
 export default productSizeSlice.reducer;
 
 export const selectProductSizes = (state: { productSize: ProductSizeState }) => state.productSize.sizes;

@@ -12,11 +12,13 @@ export interface Product {
 export interface ProductsState {
     products: Product[];
     loading: boolean;
+    fetched: boolean; // whether we've already loaded products
 }
 
 export const initialState: ProductsState = {
     products: [],
     loading: false
+    ,fetched: false
 }
 
 const productSlice = createSlice({
@@ -27,13 +29,16 @@ const productSlice = createSlice({
             state.products = action.payload;
             state.loading = false;
         },
+        setFetched: (state, action: PayloadAction<boolean>) => {
+            state.fetched = action.payload;
+        },
         setLoading: (state, action: PayloadAction<boolean>) => {
             state.loading = action.payload;
         }
     }
 })
 
-export const { setProduct, setLoading } = productSlice.actions;
+export const { setProduct, setLoading, setFetched } = productSlice.actions;
 export default productSlice.reducer;
 
 export const selectProducts = (state: { products: ProductsState }) => state.products.products;

@@ -23,11 +23,14 @@ import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
 
 import { createProductSize } from "@/services/productSizeService";
+import { setFetched as setProductSizesFetched } from '@/redux/productSize/sliceProductSize';
+import { useDispatch } from 'react-redux';
 
 export default function ModalCreateProdSize() {
     const productsState = useSelector((state: RootState) => state.products);
     
     const { isOpen, onOpenChange } = useModal('createProdSizeModal');
+    const dispatch = useDispatch();
     const [isMobile, setIsMobile] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -92,6 +95,7 @@ export default function ModalCreateProdSize() {
             });
 
             closeModal();
+            try { dispatch(setProductSizesFetched(false)); } catch (e) { /** noop */ }
         }
         catch (err) {
             console.error('Error en el registro:', err);
@@ -163,9 +167,9 @@ export default function ModalCreateProdSize() {
                         }}
                     >
                         {productsState.products && productsState.products.length > 0 ? (
-                            productsState.products.map((product: any) => (
+                            productsState.products.map((product: any, idx: number) => (
                                 <SelectItem 
-                                    key={product._id}
+                                    key={product._id ?? product.id ?? `product-${idx}`}
                                     classNames={{
                                         base: "text-white",
                                     }}

@@ -16,7 +16,14 @@ export const useProductSize = () => {
             console.log('useProductSize - Fetching product sizes...');
             try {
                 const productSizes = await getProductSizes();
-                dispatch(setProductSizes(productSizes));
+                if (productSizes === null) {
+                    // 304 Not Modified from server
+                    console.debug('useProductSize - Server returned 304 Not Modified');
+                    dispatch(setFetched(true));
+                    dispatch(setLoaded(true));
+                } else {
+                    dispatch(setProductSizes(productSizes));
+                }
             }
             catch(err) {
                 console.error('useProductSize - Error fetching product sizes:', err);
@@ -27,11 +34,11 @@ export const useProductSize = () => {
                 isFetchingRef.current = false;
             }
         };
-        // Avoid requesting repeatedly: only fetch if we haven't already loaded sizes
-        if (!productSizesState.loaded) {
+        // Avoid requesting repeatedly: only fetch if we haven't already fetched sizes
+        if (!productSizesState.fetched && !productSizesState.loaded) {
             fetchProductSizes();
         }
-    }, [dispatch, productSizesState.sizes]);
+    }, [dispatch, productSizesState.fetched, productSizesState.loaded]);
 
     return {
         productSizesState

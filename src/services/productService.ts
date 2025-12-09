@@ -1,12 +1,15 @@
-export async function getProducts() {
+export async function getProducts(): Promise<any[] | null> {
     const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4001';
     const response = await fetch(`${url}/api/products`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-        }
+        },
+        credentials: 'include'
     });
 
+    // If the response is 304 not modified, we return null (to signal no change)
+    if (response.status === 304) return null;
     if (!response.ok) return [];
 
     const data = await response.json();
@@ -21,11 +24,16 @@ export async function createProd(productData: {name: string, description: string
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(productData)
     });
-
-    if (!response.ok) return console.error('Failed to create product');
     const data = await response.json();
+    if (!response.ok) {
+        console.error('Failed to create product', data);
+        const err: any = new Error(data?.message || 'Failed to create product');
+        if (data?.details) err.details = data.details;
+        throw err;
+    }
     return data;
     }
     catch (err) {
@@ -41,9 +49,15 @@ export async function deleteProduct(id: string) {
             headers: {
                 'Content-Type': 'application/json',
             }
+            ,credentials: 'include'
         });
-        if (!response.ok) return console.error('Failed to delete product');
         const data = await response.json();
+        if (!response.ok) {
+            console.error('Failed to delete product', data);
+            const err: any = new Error(data?.message || 'Failed to delete product');
+            if (data?.details) err.details = data.details;
+            throw err;
+        }
         return data;
     }
     catch (err) {
