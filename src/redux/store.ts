@@ -4,6 +4,8 @@ import drawerReducer from "./drawer/sliceDrawer";
 import productsReducer from "./products/sliceProducts";
 import modalReducer from "./modal/sliceModal";
 import userReducer from "./users/sliceUsers";
+import categoriesReducer from "./categories/sliceCategories";
+import productSizeReducer from "./productSize/sliceProductSize";
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +14,8 @@ export const store = configureStore({
         products: productsReducer,
         modal: modalReducer,
         users: userReducer,
+        categories: categoriesReducer,
+        productSize: productSizeReducer,
     },
 });
 

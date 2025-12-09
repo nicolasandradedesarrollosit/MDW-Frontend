@@ -1,53 +1,48 @@
-import {Modal, 
-    ModalContent,
-    ModalBody,
-    ModalFooter,
-    ModalHeader
-} from "@heroui/modal"
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/modal"
 
-import { logOut as logOutService } from "@/services/userService"
+import { deleteProductSize } from "@/services/productSizeService";
 
-import { useAuth } from "@/hooks/useAuth";
+import {useModal} from '@/hooks/useModal';
 
-import { Avatar } from "@heroui/avatar";
+import {Button} from "@heroui/button";
 
-import {useModal} from "@/hooks/useModal";
+import { useState, useEffect } from "react";
 
-import {useState, useEffect} from "react";
 
-import { Button } from "@heroui/button";
 
-export default function ModalLogOut() {
-    const { logOut, authState } = useAuth();
-    const {isOpen, onOpenChange} = useModal('logOutModal');
-    
+export default function ModalDeleteProdSize({ id }: { id?: string | null }) {
+
     const [isMobile, setIsMobile] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    const {isOpen, onOpenChange} = useModal('deleteProdSizeModal');
+
     useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 640);
-        };
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        }
+            const handleResize = () => {
+                setIsMobile(window.innerWidth <= 640);
+            };
+            handleResize();
+            window.addEventListener('resize', handleResize);
+            return () => {
+                window.removeEventListener('resize', handleResize);
+            }
     }, []);
 
-    const handleLogOut = async () => {
+    const handleDeleteProductSize = async (id?: string | null) => {
+        if (!id) return;
         try {
             setIsLoading(true);
-            await logOutService(); 
-            logOut(); 
-        } catch (error) {
-            console.error('Error al cerrar sesión:', error);
-            // Even if the service fails (CORS, network), ensure client state is cleared
-            logOut();
-        } finally {
-            setIsLoading(false);
+            await deleteProductSize(id);
         }
-    };
+        catch (err) {
+            console.error('Error deleting product size:', err);
+        }
+        finally {
+            setIsLoading(false);
+            window.location.reload();
+        }
+    }
+
     return (
         <Modal
         isOpen={isOpen}
@@ -67,20 +62,12 @@ export default function ModalLogOut() {
                 {(onClose) => (
                     <>
                         <ModalHeader className="flex flex-col gap-1 items-center">
-                            <div className="flex flex-row items-center gap-3">
-                                <Avatar className="w-10 h-10" />
-                                <div className="text-left">
-                                    <h1 className="tracking-wider text-white/90 text-lg sm:text-xl md:text-2xl font-bold">
-                                        {authState?.name} {authState?.lastName}
-                                    </h1>
-                                    <p className="text-white/60 text-sm">Cerrar sesión</p>
-                                </div>
-                            </div>
+                            Eliminar Producto Talle
                         </ModalHeader>
                         <ModalBody>
                             <div className="flex flex-col items-center gap-4 py-4">
                                 <p className='text-white/80 text-sm sm:text-base md:text-lg text-center px-2'>
-                                    ¿Estás seguro que deseas cerrar sesión?
+                                    ¿Estás seguro que deseas eliminar este producto talle?
                                 </p>
                             </div>
                         </ModalBody>
@@ -90,7 +77,7 @@ export default function ModalLogOut() {
                                     color="default" 
                                     variant="light" 
                                     onPress={onClose}
-                                    className="w-full sm:w-auto bg-white text-black"
+                                    className="w-full sm:w-auto"
                                     size={isMobile ? "md" : "lg"}
                                 >
                                     Cancelar
@@ -99,14 +86,14 @@ export default function ModalLogOut() {
                                     color="danger"
                                     variant="solid"
                                     onPress={async () => {
-                                        await handleLogOut();
+                                        await handleDeleteProductSize(id);
                                         onClose();
                                     }}
                                     isLoading={isLoading}
                                     className="w-full sm:w-auto text-sm sm:text-base"
                                     size={isMobile ? "md" : "lg"}
                                 >
-                                    Cerrar sesión
+                                    Eliminar
                                 </Button>
                             </div>
                         </ModalFooter>
