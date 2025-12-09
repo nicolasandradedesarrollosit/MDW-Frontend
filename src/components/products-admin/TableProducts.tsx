@@ -407,7 +407,9 @@ export default function TableProducts() {
                                                     {svgEdit}
                                                 </Button>
                                                 <Button onPress={() => {
-                                                    setSelectId(item._id || null);
+                                                    const idToSet = (item as any)._id || null;
+                                                    console.debug('TableProducts - Deleting product size id:', idToSet);
+                                                    setSelectId(idToSet);
                                                     onOpenDeleteProdSize();
                                                 }} title="Eliminar" isIconOnly variant="solid" color="danger" className="text-white">
                                                     {svgDelete}

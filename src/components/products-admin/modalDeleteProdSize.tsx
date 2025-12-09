@@ -1,6 +1,8 @@
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/modal"
 
 import { deleteProductSize } from "@/services/productSizeService";
+import { useDispatch } from 'react-redux';
+import { setFetched as setProductSizesFetched } from '@/redux/productSize/sliceProductSize';
 
 import {useModal} from '@/hooks/useModal';
 
@@ -16,6 +18,7 @@ export default function ModalDeleteProdSize({ id }: { id?: string | null }) {
     const [isLoading, setIsLoading] = useState(false);
 
     const {isOpen, onOpenChange} = useModal('deleteProdSizeModal');
+    const dispatch = useDispatch();
 
     useEffect(() => {
             const handleResize = () => {
@@ -28,14 +31,26 @@ export default function ModalDeleteProdSize({ id }: { id?: string | null }) {
             }
     }, []);
 
-    const handleDeleteProductSize = async (id?: string | null) => {
-        if (!id) return;
+    useEffect(() => {
+        if (isOpen) {
+            console.debug('ModalDeleteProdSize - Opened with id prop:', id);
+        }
+    }, [isOpen, id]);
+
+    const handleDeleteProductSize = async (id?: string | null): Promise<boolean> => {
+        if (!id) return false;
         try {
             setIsLoading(true);
-            await deleteProductSize(id);
-        }
+            console.debug('ModalDeleteProdSize - Sending delete for id:', id);
+            const resp = await deleteProductSize(id);
+            console.debug('ModalDeleteProdSize - Delete successful:', resp);
+            try { dispatch(setProductSizesFetched(false)); } catch (e) { /** noop */ }
+            return true;
+            }
         catch (err) {
             console.error('Error deleting product size:', err);
+            alert('Error eliminando producto talle: ' + (err instanceof Error ? err.message : 'Error')); 
+            return false;
         }
         finally {
             setIsLoading(false);
@@ -86,8 +101,8 @@ export default function ModalDeleteProdSize({ id }: { id?: string | null }) {
                                     color="danger"
                                     variant="solid"
                                     onPress={async () => {
-                                        await handleDeleteProductSize(id);
-                                        onClose();
+                                        const ok = await handleDeleteProductSize(id);
+                                        if (ok) onClose();
                                     }}
                                     isLoading={isLoading}
                                     className="w-full sm:w-auto text-sm sm:text-base"

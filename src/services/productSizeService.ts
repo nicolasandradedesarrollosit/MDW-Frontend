@@ -52,11 +52,17 @@ export async function deleteProductSize(id: string) {
             },
             credentials: 'include'
         });
-        if (!response.ok) return console.error('Failed to delete product size');
         const data = await response.json();
+        if (!response.ok) {
+            console.error('Failed to delete product size', data);
+            const err: any = new Error(data?.message || 'Failed to delete product size');
+            if (data?.details) err.details = data.details;
+            throw err;
+        }
         return data;
     }
     catch (err) {
         console.error('Error deleting product size:', err);
+        throw err;
     }
 }
