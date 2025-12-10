@@ -95,9 +95,13 @@ export async function getUsers() {
     }
 }
 
+import { signOut } from 'firebase/auth';
+import { auth } from '@/firebase/config';
+
 export async function logOut() {
     const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4002';
     try {
+        // 1) Ask server to clear session cookies
         await fetch(`${url}/api/logout`, {
             headers: {
                 'Content-Type': 'application/json',
@@ -107,8 +111,18 @@ export async function logOut() {
         });
     }
     catch (err) {
-        console.error('Error al cerrar sesión:', err);
-        throw err;
+        console.error('Error al cerrar sesión en el servidor:', err);
+        // don't rethrow so we can still try client sign-out
+    }
+    finally {
+        // 2) Ensure client Firebase session is signed out as well
+        try {
+            await signOut(auth);
+            console.log('Firebase client sign-out successful');
+        }
+        catch (firebaseErr) {
+            console.warn('Firebase client sign-out failed:', firebaseErr);
+        }
     }
 }
 

@@ -39,6 +39,7 @@ export default function DrawerLogInUser() {
     const [isVisiblePassword, setIsVisiblePassword] = useState(false);
     const [mobile, setMobile] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [loadingGoogle, setLoadingGoogle] = useState(false);
 
     const [fieldsValid, setFieldValid] = useState<{
         email: boolean | null,
@@ -178,7 +179,7 @@ export default function DrawerLogInUser() {
 
     const logInGoogle = async () => {
         try {
-            setLoading(true);
+            setLoadingGoogle(true);
             const googleUser = await signInWithGoogle();
             console.log('Google sign-in success:', googleUser);
             await authGoogleService({ idToken: googleUser.idToken, email: googleUser.email, name: googleUser.name });
@@ -187,7 +188,7 @@ export default function DrawerLogInUser() {
         } catch (err) {
             console.error('Error during Google login:', err);
             alert((err as any)?.message || 'Error durante login con Google');
-        } finally { setLoading(false); }
+        } finally { setLoadingGoogle(false); }
     }
 
     return (
@@ -262,7 +263,7 @@ export default function DrawerLogInUser() {
                                 </Button>
                             </div>
                             <div className='flex flex-col sm:flex-row justify-center w-full gap-4 sm:gap-6 md:gap-8 mt-4'>
-                                <Button startContent={svgGoogle} isLoading={loading} onPress={logInGoogle} className='w-full p-6 bg-white sm:w-1/2 md:w-4/5' variant='solid' color='default'>
+                                <Button startContent={svgGoogle} isLoading={loadingGoogle} onPress={logInGoogle} className='w-full p-6 bg-white sm:w-1/2 md:w-4/5' variant='solid' color='default'>
                                     Iniciar sesión con Google
                                 </Button>
                             </div>

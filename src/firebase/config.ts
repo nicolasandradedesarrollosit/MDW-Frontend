@@ -4,7 +4,7 @@ import { getAuth } from "firebase/auth";
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
 const firebaseConfig = {
-  apiKey: "AIzaSyC-8UaLJiSE6_waUolIfitbrxEc4Qpf2r8",
+  apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
   authDomain: "mdw-e2468.firebaseapp.com",
   projectId: "mdw-e2468",
   appId: "1:628861393038:web:299a2fab6dddf1cc0e51df",

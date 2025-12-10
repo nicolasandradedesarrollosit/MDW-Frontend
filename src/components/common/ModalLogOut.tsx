@@ -42,7 +42,6 @@ export default function ModalLogOut() {
             logOut(); 
         } catch (error) {
             console.error('Error al cerrar sesión:', error);
-            // Even if the service fails (CORS, network), ensure client state is cleared
             logOut();
         } finally {
             setIsLoading(false);

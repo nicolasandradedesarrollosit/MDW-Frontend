@@ -3,11 +3,15 @@ import { useDrawer } from "@/hooks/useDrawer";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@heroui/button";
 import { useState, useEffect } from "react";
+import {useModal} from "@/hooks/useModal";
+import ModalLogOut from "@/components/common/ModalLogOut";
 
 export default function DrawerDataUser() {
     const { isOpen, onClose } = useDrawer('profile');
     const { authState } = useAuth();
     const [mobile, setMobile] = useState(false);
+    const { onOpen: onOpenLogOut } = useModal('logOutModal');
+    
 
     useEffect(() => {
         const handleResize = () => {
@@ -52,6 +56,9 @@ export default function DrawerDataUser() {
                             </div>
                         )}
                     </div>
+                    <div className="flex flex-col items-center justify-center mt-12">
+                        <Button variant="solid" color="danger" onPress={onOpenLogOut}>Cerrar Sesión</Button>
+                    </div>
                 </DrawerBody>
                 <DrawerFooter className='px-4 sm:px-6'>
                     <Button color='danger' variant='light' onPress={onClose}>
@@ -59,6 +66,7 @@ export default function DrawerDataUser() {
                     </Button>
                 </DrawerFooter>
             </DrawerContent>
+            <ModalLogOut />
         </Drawer>
     )
 }
