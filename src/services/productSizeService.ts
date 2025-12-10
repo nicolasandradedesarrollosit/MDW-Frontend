@@ -1,5 +1,5 @@
 export async function getProductSizes() {
-    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4001';
+    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4002';
     const response = await fetch(`${url}/api/product-sizes`, {
         method: 'GET',
         headers: {
@@ -16,7 +16,7 @@ export async function getProductSizes() {
 }
 
 export async function createProductSize(productSizeData: {id_product: string, size: string, stock: number}){
-    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4001';
+    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4002';
     try {
         const response = await fetch(`${url}/api/product-sizes`, {
             method: 'POST',
@@ -43,7 +43,7 @@ export async function createProductSize(productSizeData: {id_product: string, si
 }
 
 export async function deleteProductSize(id: string) {
-    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4001';
+    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4002';
     try {
         const response = await fetch(`${url}/api/product-sizes/${id}`, {
             method: 'DELETE',
@@ -63,6 +63,47 @@ export async function deleteProductSize(id: string) {
     }
     catch (err) {
         console.error('Error deleting product size:', err);
+        throw err;
+    }
+}
+
+export async function updateProductSize(id: string | undefined | null, productSizeData: {id_product?: string, size?: string, stock?: number}){
+    if (!id) throw new Error('Product id is required');
+    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4002';
+    const encodedId = encodeURIComponent(id as string);
+    const fullUrl = `${url}/api/product-sizes/${encodedId}`;
+    try {
+        console.debug('updateProductSize - PATCH', fullUrl, 'body:', productSizeData);
+        const response = await fetch(fullUrl, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify(productSizeData)
+        });
+
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+            const data = await response.json();
+            if (!response.ok) {
+                console.error('Failed to update product', response.status, response.statusText, data);
+                const err: any = new Error(data?.message || `Failed to update product: ${response.status} ${response.statusText}`);
+                if (data?.details) err.details = data.details;
+                throw err;
+            }
+            return data;
+        }
+        else {
+            const text = await response.text();
+            console.error('updateProduct - Non-JSON response', response.status, response.statusText, text);
+            const err: any = new Error(`Failed to update product: ${response.status} ${response.statusText}`);
+            err.body = text;
+            throw err;
+        }
+    }
+    catch (err) {
+        console.error('Error updating product (network/parse):', err);
         throw err;
     }
 }

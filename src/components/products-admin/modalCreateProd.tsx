@@ -190,6 +190,16 @@ export default function ModalCreateProd() {
                         onValueChange={(value) => setFormData((prev) => ({ ...prev, price: parseInt(value) || 0 }))}
                         errorMessage='El precio es obligatorio' 
                     />
+
+                    <div>
+                        {formData.url_image && (
+                            <img 
+                                src={formData.url_image}
+                                alt="Imagen del Producto"
+                                className="w-full h-24 sm:h-30 md:h-48 object-cover rounded-lg mb-2"
+                            />
+                        )}
+                    </div>
                     
                     <div className="relative w-full">
                         <div className="relative bg-black border border-white/20 hover:border-white/40 focus-within:border-white/60 transition-colors rounded-xl px-3 pt-5 pb-2 cursor-pointer group">

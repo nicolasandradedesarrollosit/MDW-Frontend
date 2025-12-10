@@ -15,8 +15,10 @@ import { Button } from "@heroui/button"
 import { useModal } from "@/hooks/useModal"
 
 import ModalCreateProd from "./modalCreateProd"
+import ModalEditProd from "./modalEditProd"
 import ModalDeleteProd from "./modalDeleteProd"
 import ModalCreateProdSize from "./modalCreateProdSize"
+import ModalEditProdSize from "./modalEditProdSize"
 import ModalDeleteProdSize from "./modalDeleteProdSize"
 import ModalViewImage from "./modalViewImage"
 
@@ -33,7 +35,7 @@ export default function TableProducts() {
     const { onOpen: onOpenEditProd } = useModal('editProdModal');
     const { onOpen: onOpenDeleteProd } = useModal('deleteProdModal');
     const { onOpen: onOpenCreateProdSize } = useModal('createProdSizeModal');
-    
+    const { onOpen: onOpenEditProdSize } = useModal('editProdSizeModal');
     const { onOpen: onOpenDeleteProdSize } = useModal('deleteProdSizeModal');
     const { onOpen: onOpenViewImage } = useModal('viewImageModal');
     
@@ -248,16 +250,15 @@ export default function TableProducts() {
                                                 {item.url_image ? (
                                                     <img 
                                                         src={item.url_image} 
-                                                        alt={item.name}
                                                         className="w-12 h-12 object-cover rounded cursor-pointer hover:opacity-90"
-                                                        onError={(e) => {
+                                                        onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
                                                             (e.target as HTMLImageElement).src = 'https://via.placeholder.com/48?text=IMG';
                                                         }}
                                                         onClick={() => { setSelectedImage(item.url_image || null); onOpenViewImage(); }}
                                                         role="button"
                                                         aria-label={`Abrir imagen de ${item.name}`}
                                                         tabIndex={0}
-                                                        onKeyDown={(e) => {
+                                                        onKeyDown={(e: React.KeyboardEvent<HTMLImageElement>) => {
                                                             if (e.key === 'Enter' || e.key === ' ') {
                                                                 e.preventDefault();
                                                                 setSelectedImage(item.url_image || null);
@@ -386,7 +387,7 @@ export default function TableProducts() {
                                                         role="button"
                                                         aria-label={`Abrir imagen de ${item.name}`}
                                                         tabIndex={0}
-                                                        onKeyDown={(e) => {
+                                                        onKeyDown={(e: React.KeyboardEvent<HTMLImageElement>) => {
                                                             if (e.key === 'Enter' || e.key === ' ') {
                                                                 e.preventDefault();
                                                                 setSelectedImage(item.url_image || null);
@@ -403,7 +404,13 @@ export default function TableProducts() {
                                         </TableCell>
                                         <TableCell className="text-center">
                                             <div className="flex flex-row justify-center items-center gap-2">
-                                                <Button title="Editar" isIconOnly variant="solid" color="warning" className="text-white">
+                                                <Button onPress={() => {
+                                                    const idToSet = (item as any)._id || null;
+                                                    console.debug('TableProducts - Deleting product size id:', idToSet);
+                                                    setSelectId(idToSet);
+                                                    onOpenEditProdSize();
+                                                }} 
+                                                title="Editar" isIconOnly variant="solid" color="warning" className="text-white">
                                                     {svgEdit}
                                                 </Button>
                                                 <Button onPress={() => {
@@ -424,8 +431,10 @@ export default function TableProducts() {
                 </div>
                 )}
                 <ModalCreateProd />
+                <ModalEditProd id={selectId} />
                 <ModalDeleteProd id={selectId} />
                 <ModalCreateProdSize />
+                <ModalEditProdSize id={selectId} />
                 <ModalDeleteProdSize id={selectId} />
                 <ModalViewImage imageUrl={selectedImage} onCloseCallback={() => setSelectedImage(null)} />
             </div>

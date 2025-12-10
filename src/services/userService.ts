@@ -1,5 +1,5 @@
 export async function authService (formData: {email: string, password: string}) {
-    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4001';
+    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4002';
     try {
         const response = await fetch(`${url}/api/login`, {
             method: 'POST',
@@ -23,7 +23,7 @@ export async function authService (formData: {email: string, password: string}) 
 }
 
 export async function checkSession() {
-    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4001';
+    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4002';
     try {
         const response = await fetch(`${url}/api/check-session`, {
             method: 'GET',
@@ -44,7 +44,7 @@ export async function checkSession() {
 }
 
 export async function registerService(formData: { name: string, lastName: string, email: string, age: number, password: string}) {
-    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4001';
+    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4002';
     try {
         console.log('Registrando usuario con datos:', formData);
         const response = await fetch(`${url}/api/user`, {
@@ -75,7 +75,7 @@ export async function registerService(formData: { name: string, lastName: string
 }
 
 export async function getUsers() {
-    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4001';
+    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4002';
     try {
         const response = await fetch(`${url}/api/users`, {
             method: 'GET',
@@ -96,7 +96,7 @@ export async function getUsers() {
 }
 
 export async function logOut() {
-    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4001';
+    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4002';
     try {
         await fetch(`${url}/api/logout`, {
             headers: {
@@ -108,6 +108,29 @@ export async function logOut() {
     }
     catch (err) {
         console.error('Error al cerrar sesión:', err);
+        throw err;
+    }
+}
+
+export async function authGoogleService(googleData: { idToken?: string | null, email?: string | null, name?: string | null}) {
+    const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4002';
+    try {
+        const response = await fetch(`${url}/api/login-google`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(googleData)
+        });
+
+        if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.message || 'Error en login con Google');
+        }
+
+        return response.json();
+    }
+    catch (err) {
+        console.error('Error in authGoogleService:', err);
         throw err;
     }
 }
