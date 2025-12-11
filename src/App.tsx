@@ -3,6 +3,7 @@ import Home from "./pages/home"
 import Products from "./pages/products";
 import Admin from "./pages/admin";
 import AdminProducts from "./pages/admin-products";
+import SingleProduct from "./pages/single-product";
 import DrawerFather from "./components/home/DrawerFather";
 import DrawerCartFather from "./components/home/DrawerCartFather";
 import { Provider } from "./provider";
@@ -11,6 +12,7 @@ import {useAuth} from "./hooks/useAuth";
 import { useCategories } from "./hooks/useCategories";
 import { useProductSize } from "./hooks/useProductSize";
 import { ProtectedRoute } from "./hooks/ProtectedRoute";
+import { ProtectedRouteProduct } from "./hooks/ProtectedRouteProduct";
 
 
 function App() {
@@ -40,6 +42,15 @@ function App() {
                 </ProtectedRoute>
             } 
         />
+        <Route 
+            path="/single-product/:id" 
+            element={
+                <ProtectedRouteProduct requireIDProduct>
+                    <SingleProduct />
+                </ProtectedRouteProduct>
+            } 
+        />
+        <Route path="*" element={<Home />} />
       </Routes>
       <DrawerFather />
       <DrawerCartFather />

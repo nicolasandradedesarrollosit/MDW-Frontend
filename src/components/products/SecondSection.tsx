@@ -1,11 +1,15 @@
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom";
 import {RootState} from "@/redux/store"
 import { Card, CardBody, CardFooter } from "@heroui/card";
 import { Image } from "@heroui/image";
+import { Button } from "@heroui/button";
 
 export default function SecondSection() {
     const productsState = useSelector((state: RootState) => state.products);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log('SecondSection - productsState:', productsState);
@@ -24,14 +28,15 @@ export default function SecondSection() {
                             isFooterBlurred 
                             isPressable 
                             shadow="sm" 
-                            onPress={() => console.log("item pressed")}
+                            onPress={() => navigate(`/single-product/${item._id}`)}
                         >
                             <CardBody className="overflow-visible p-0">
                                 <Image
                                     alt={item.name}
-                                    className="w-full h-48 sm:h-56 md:h-64 object-cover"
+                                    className="block w-full h-48 sm:h-56 md:h-64 object-cover"
                                     radius="none"
                                     shadow="none"
+                                    width="100%"
                                     src={item.url_image}
                                 />
                             </CardBody>
@@ -42,7 +47,9 @@ export default function SecondSection() {
                                 </div>
                                 <div className="flex justify-between items-center w-full mt-2">
                                     <p className="text-lg md:text-xl font-bold text-black">${item.price}</p>
-                                    <p className="text-xs text-gray-400">{item.stock > 0 ? `Stock: ${item.stock}` : 'Sin stock'}</p>
+                                    <Button onPress={() => {
+                                        navigate(`/single-product/${item._id}`);
+                                    }} size="sm" className="bg-black text-white">Ver Más</Button>
                                 </div>
                             </CardFooter>
                         </Card>

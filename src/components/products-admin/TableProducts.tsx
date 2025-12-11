@@ -138,6 +138,11 @@ export default function TableProducts() {
     useEffect(() => {
         setPage(1);
     }, [filterName]);
+    
+    // Reset page when switching between products and product sizes
+    useEffect(() => {
+        setPage(1);
+    }, [sectionProductSize]);
 
     return (
         <div className="flex flex-col items-center w-full min-h-screen overflow-x-hidden">
@@ -172,7 +177,7 @@ export default function TableProducts() {
                             removeWrapper
                             aria-label="Tabla de productos"
                             bottomContent={
-                                pagesSizes > 1 ? (
+                                pages > 1 ? (
                                     <div className="flex w-full justify-center py-4 px-2">
                                         <Pagination
                                             isCompact
@@ -180,7 +185,7 @@ export default function TableProducts() {
                                             showShadow
                                             color="primary"
                                             page={page}
-                                            total={pagesSizes}
+                                            total={pages}
                                             onChange={(page) => setPage(page)}
                                             size="sm"
                                         />
@@ -303,7 +308,7 @@ export default function TableProducts() {
                             removeWrapper
                             aria-label="Tabla de productos talles"
                             bottomContent={
-                                pages > 1 ? (
+                                pagesSizes > 1 ? (
                                     <div className="flex w-full justify-center py-4 px-2">
                                         <Pagination
                                             isCompact
@@ -311,7 +316,7 @@ export default function TableProducts() {
                                             showShadow
                                             color="primary"
                                             page={page}
-                                            total={pages}
+                                            total={pagesSizes}
                                             onChange={(page) => setPage(page)}
                                             size="sm"
                                         />

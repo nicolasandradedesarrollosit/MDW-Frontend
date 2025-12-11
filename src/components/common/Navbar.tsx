@@ -2,6 +2,8 @@ import {useDrawer} from "@/hooks/useDrawer";
 
 import { useState } from "react"
 
+import {Link} from "react-router-dom";
+
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { onOpen: onOpenProfile } = useDrawer('profile');
@@ -19,11 +21,12 @@ export default function Navbar() {
                 <div className="hidden md:block">
                     <ul className="flex flex-row gap-8 lg:gap-12">
                         <li className="font-semibold text-black/70 text-base lg:text-lg hover:text-black transition-colors cursor-pointer">
-                            HOMBRES
+                            <Link to={'/'}>INICIO</Link>
                         </li>
                         <li className="font-semibold text-black/70 text-base lg:text-lg hover:text-black transition-colors cursor-pointer">
-                            MUJERES
+                            <Link to={'/products'}>PRODUCTOS</Link>
                         </li>
+                        
                     </ul>
                 </div>
                 
@@ -76,10 +79,10 @@ export default function Navbar() {
                 <div className="md:hidden w-11/12 lg:w-9/10 bg-white shadow-lg rounded-lg p-4 absolute top-[10vh] z-50">
                     <ul className="flex flex-col gap-4">
                         <li className="font-semibold text-black/70 text-base hover:text-black transition-colors cursor-pointer py-2 border-b border-gray-200">
-                            HOMBRES
+                            <Link to={'/'}>INICIO</Link>
                         </li>
                         <li className="font-semibold text-black/70 text-base hover:text-black transition-colors cursor-pointer py-2 border-b border-gray-200">
-                            MUJERES
+                            <Link to={'/products'}>PRODUCTOS</Link>
                         </li>
                     </ul>
                 </div>
