@@ -1,7 +1,14 @@
 import NavLat from "@/components/common/NavLat";
 import TableProducts from "@/components/products-admin/TableProducts";
+import { useEffect } from "react";
 
 export default function AdminProducts() {
+  useEffect(() => {
+          const contenedor = document.getElementById("root");
+          if (contenedor) {
+            contenedor.scrollIntoView({ behavior: "instant" });
+          }
+    }, []);
     return (
         <div className="flex flex-row overflow-x-hidden">
             <NavLat currentPageName="Productos" />

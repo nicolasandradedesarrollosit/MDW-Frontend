@@ -1,12 +1,10 @@
 import { Button } from "@heroui/button"
 import { useModal } from "@/hooks/useModal"
 import { useState } from "react"
-import FilterBy from "./FilterBy";
 import SortBy from "./SortBy";
 
 export default function FirstSection() {
     const { onOpen: onOpenSort } = useModal('sortModal');
-    const { onOpen: onOpenFilter } = useModal('filterModal');
 
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
@@ -25,12 +23,6 @@ export default function FirstSection() {
         { id: 'pantalones', label: 'Pantalones' },
         { id: 'accesorios', label: 'Accesorios' }
     ];
-
-    const svg1 = (
-        <svg className="h-[30px] w-[30px]" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
-            <path fill="#ffffff" d="M9 5a1 1 0 1 0 0 2a1 1 0 0 0 0-2zM6.17 5a3.001 3.001 0 0 1 5.66 0H19a1 1 0 1 1 0 2h-7.17a3.001 3.001 0 0 1-5.66 0H5a1 1 0 0 1 0-2h1.17zM15 11a1 1 0 1 0 0 2a1 1 0 0 0 0-2zm-2.83 0a3.001 3.001 0 0 1 5.66 0H19a1 1 0 1 1 0 2h-1.17a3.001 3.001 0 0 1-5.66 0H5a1 1 0 1 1 0-2h7.17zM9 17a1 1 0 1 0 0 2a1 1 0 0 0 0-2zm-2.83 0a3.001 3.001 0 0 1 5.66 0H19a1 1 0 1 1 0 2h-7.17a3.001 3.001 0 0 1-5.66 0H5a1 1 0 1 1 0-2h1.17z"/>
-        </svg>
-    )
 
     const svg2 = (
         <svg className="h-[30px] w-[30px]" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 20 20" fill="#ffffff"><g fill="#ffffff" fillRule="evenodd" clipRule="evenodd">
@@ -68,16 +60,6 @@ export default function FirstSection() {
                 </div>
                 <div className="flex flex-row gap-2 md:gap-3 w-full md:w-auto justify-center">
                     <Button 
-                        startContent={svg1} 
-                        variant="solid" 
-                        size="md" 
-                        color="default" 
-                        className="bg-black text-white hover:bg-gray-800 flex-1 md:flex-none text-xs md:text-sm"
-                        onPress={onOpenFilter}
-                    >
-                        Filtrar
-                    </Button>
-                    <Button 
                         startContent={svg2} 
                         variant="solid" 
                         size="md" 
@@ -89,7 +71,6 @@ export default function FirstSection() {
                     </Button>
                 </div>
             </div>
-            <FilterBy />
             <SortBy />
         </section>
     )

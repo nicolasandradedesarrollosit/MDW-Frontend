@@ -10,6 +10,8 @@ interface ProtectedRouteProps {
 export const ProtectedRouteProduct = ({ requireIDProduct = false, children }: ProtectedRouteProps) => {
     const products = useSelector(selectProducts);
     const productsLoading = useSelector(selectProductsLoading);
+    // whether we've already fetched products at least once
+    const productsFetched = useSelector((state: any) => state.products?.fetched ?? false);
 
     const { id: productId } = useParams() as { id?: string };
 
@@ -19,7 +21,11 @@ export const ProtectedRouteProduct = ({ requireIDProduct = false, children }: Pr
     }
 
     if (requireIDProduct) {
-        if (productsLoading) {
+        // If products are still loading or we haven't fetched them yet, wait
+        // to avoid a race condition where the route redirects before the
+        // products list is populated on first load or after a refetch.
+        if (productsLoading || !productsFetched) {
+            console.debug('ProtectedRouteProduct - esperando fetch de productos (loading:', productsLoading, ', fetched:', productsFetched, ')');
             return null;
         }
 

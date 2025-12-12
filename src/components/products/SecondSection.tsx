@@ -46,7 +46,7 @@ export default function SecondSection() {
                                     <p className="text-xs text-gray-500 line-clamp-1">{item.description}</p>
                                 </div>
                                 <div className="flex justify-between items-center w-full mt-2">
-                                    <p className="text-lg md:text-xl font-bold text-black">${item.price}</p>
+                                    <p className="text-lg md:text-xl font-bold text-black">${item.price?.toLocaleString()}<span className="text-sm ml-1 text-gray-500">ARS</span></p>
                                     <Button onPress={() => {
                                         navigate(`/single-product/${item._id}`);
                                     }} size="sm" className="bg-black text-white">Ver Más</Button>

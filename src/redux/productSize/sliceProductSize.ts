@@ -14,7 +14,7 @@ export interface ProductSize {
 
 export interface ProductSizeState {
     sizes: ProductSize[];
-    loaded: boolean; // indicates whether a first fetch attempt has completed
+    loaded: boolean;
     fetched: boolean;
 }
 
