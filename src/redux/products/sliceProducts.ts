@@ -8,6 +8,7 @@ export interface Product {
     stock: number;
     url_image: string;
     id_category: string;
+    createdAt: string;
 }
 
 export interface ProductsState {

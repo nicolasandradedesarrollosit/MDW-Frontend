@@ -35,9 +35,6 @@ export default function ModalEditProd({ id }: { id?: string | null }) {
     const productState = useSelector((state: RootState) => state.products);
 
     const productPatch = productState.products.find((p: any) => (p._id ?? p.id) === id);
-
-    // NOTE: set formData on open + productPatch below after setFormData is defined
-
     const { isOpen, onOpenChange } = useModal('editProdModal');
     const dispatch = useDispatch();
     const [isMobile, setIsMobile] = useState(false);

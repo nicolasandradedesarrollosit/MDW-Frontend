@@ -14,7 +14,6 @@ export const useProducts = () => {
             try {
                 dispatch(setLoading(true));
                 const products = await getProducts();
-                // If getProducts returned null for 304 not modified, mark as fetched and keep existing products
                 if (products === null) {
                     console.debug('useProducts - Server returned 304 (Not modified), marking as fetched');
                     dispatch(setFetched(true));
@@ -28,7 +27,6 @@ export const useProducts = () => {
                 dispatch(setLoading(false));
             }
         };
-        // Evitar llamadas duplicadas si ya tenemos products fetch indicados
         if (!productsState.fetched && !productsState.loading) {
             fetchProducts();
         }

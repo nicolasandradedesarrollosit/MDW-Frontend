@@ -117,27 +117,27 @@ export default function TableUsers() {
                                     className="hover:bg-gray-50 transition-colors"
                                 >
                                     <TableCell className="text-left">
-                                        <div className="truncate max-w-[120px] font-medium">
+                                        <div title={item.name} className="truncate max-w-[120px] font-medium">
                                             {item.name}
                                         </div>
                                     </TableCell>
                                     <TableCell className="text-left">
-                                        <div className="truncate max-w-[120px] font-medium">
+                                        <div title={item.lastName} className="truncate max-w-[120px] font-medium">
                                             {item.lastName}
                                         </div>
                                     </TableCell>
                                     <TableCell className="text-left">
-                                        <div className="truncate max-w-[180px] text-gray-600">
+                                        <div title={item.email} className="truncate max-w-[180px] text-gray-600">
                                             {item.email}
                                         </div>
                                     </TableCell>
                                     <TableCell className="text-center">
-                                        <span className="inline-flex items-center justify-center text-sm">
+                                        <span title={(item as any).edad ?? (item as any).age ?? '-'} className="inline-flex items-center justify-center text-sm">
                                             {(item as any).edad ?? (item as any).age ?? '-'}
                                         </span>
                                     </TableCell>
                                     <TableCell className="text-center">
-                                        <span className={`inline-flex items-center justify-center px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
+                                        <span title={item.isAdmin ? 'Admin' : 'User'} className={`inline-flex items-center justify-center px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
                                             item.isAdmin 
                                                 ? 'bg-blue-100 text-blue-800' 
                                                 : 'bg-gray-100 text-gray-800'

@@ -4,6 +4,8 @@ import Products from "./pages/products";
 import Admin from "./pages/admin";
 import AdminProducts from "./pages/admin-products";
 import SingleProduct from "./pages/single-product";
+import Order from "./pages/order";
+import AdminOrders from "./pages/admin-orders";
 import DrawerFather from "./components/home/DrawerFather";
 import DrawerCartFather from "./components/home/DrawerCartFather";
 import { Provider } from "./provider";
@@ -13,6 +15,7 @@ import { useCategories } from "./hooks/useCategories";
 import { useProductSize } from "./hooks/useProductSize";
 import { ProtectedRoute } from "./hooks/ProtectedRoute";
 import { ProtectedRouteProduct } from "./hooks/ProtectedRouteProduct";
+import { ProtectedRouteCart } from "./hooks/ProtectedRouteCart";
 
 
 function App() {
@@ -43,6 +46,14 @@ function App() {
             } 
         />
         <Route 
+            path="/admin/orders" 
+            element={
+                <ProtectedRoute requireAdmin>
+                    <AdminOrders />
+                </ProtectedRoute>
+            } 
+        />
+        <Route 
             path="/single-product/:id" 
             element={
                 <ProtectedRouteProduct requireIDProduct>
@@ -50,6 +61,15 @@ function App() {
                 </ProtectedRouteProduct>
             } 
         />
+        <Route
+        path="/order"
+        element={
+            <ProtectedRouteCart>
+                <Order />
+            </ProtectedRouteCart>
+        }
+        >
+        </Route>
         <Route path="*" element={<Home />} />
       </Routes>
       <DrawerFather />

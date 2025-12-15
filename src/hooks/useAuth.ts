@@ -20,6 +20,7 @@ export const useAuth = () => {
                 if (result?.loggedIn) {
                     console.log('useAuth - Usuario autenticado');
                     dispatch(setAuth({
+                        id: result.id || '',
                         email: result.email || '',
                         name: result.name || '',
                         lastName: result.lastName || '',
@@ -43,6 +44,7 @@ export const useAuth = () => {
                 else {
                     console.log('useAuth - Usuario NO autenticado');
                     dispatch(setAuth({
+                        id: '',
                         email: '',
                         name: '',
                         lastName: '',
@@ -56,6 +58,7 @@ export const useAuth = () => {
             } catch (error) {
                 console.error('useAuth - Error verificando sesión:', error);
                 dispatch(setAuth({
+                    id: '',
                     email: '',
                     name: '',
                     lastName: '',
@@ -67,9 +70,6 @@ export const useAuth = () => {
                 }))
             }
         };
-        // Solo verificamos la sesión si aún no se ha verificado (loading === true).
-        // Esto evita llamadas duplicadas a /api/check-session si varios componentes
-        // usan este hook y se montan casi al mismo tiempo (por ejemplo NavLat y ModalLogOut).
         if (authState.loading) {
             verifySession();
         }

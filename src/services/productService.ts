@@ -86,8 +86,6 @@ export async function deleteProduct(id: string) {
     }   
 }
 
-// updateProduct is implemented below with robust error handling
-
 export async function updateProduct(id: string | undefined | null, productData: {name?: string, description?: string, price?: number, url_image?: string, id_category?: string}){
     if (!id) throw new Error('Product id is required');
     const url = import.meta.env.VITE_PRODUCTION === 'true' ? import.meta.env.VITE_URL_BACK : 'http://localhost:4002';

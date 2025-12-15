@@ -15,27 +15,27 @@ export default function SecondSection() {
         {
             title: "Remeras",
             img: "remera.jpg",
-            link: "/products/shirts"
+            link: "/products?category=remeras"
         },
         {
             title: "Shorts",
             img: "shorts.jpg",
-            link: "/products/shorts"
+            link: "/products?category=shorts"
         },
         {
             title: "Buzos",
             img: "buzo.jpg",
-            link: "/products/hoodies"
+            link: "/products?category=buzos"
         },
         {
             title: "Pantalones",
             img: "pantalon.jpg",
-            link: "/products/pants"
+            link: "/products?category=pantalones"
         },
         {
             title: "Accesorios",
             img: "accesorios.jpg",
-            link: "/products/accessories"
+            link: "/products?category=accesorios"
         }
     ]
 
@@ -48,7 +48,6 @@ export default function SecondSection() {
             </div>
 
             <div className="w-full max-w-7xl flex flex-col gap-6">
-                {/* Primera fila - 2 categorías grandes */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {category.slice(0, 2).map((item, index) => (
                         <Card 
@@ -83,7 +82,6 @@ export default function SecondSection() {
                     ))}
                 </div>
 
-                {/* Segunda fila - 3 categorías medianas */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {category.slice(2, 5).map((item, index) => (
                         <Card 

@@ -1,19 +1,36 @@
 import { Button } from "@heroui/button"
 import { useModal } from "@/hooks/useModal"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useSearchParams } from "react-router-dom";
 import SortBy from "./SortBy";
 
-export default function FirstSection() {
-    const { onOpen: onOpenSort } = useModal('sortModal');
+interface FirstSectionProps {
+    initialCategory?: string | string[] | null | undefined
+}
 
-    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+export default function FirstSection({ initialCategory }: FirstSectionProps) {
+    const { onOpen: onOpenSort } = useModal('sortModal');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const initial = Array.isArray(initialCategory) ? initialCategory : (initialCategory ? [initialCategory] : []);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>(() => initial as string[]);
+
+    useEffect(() => {
+        const newInitial = Array.isArray(initialCategory) ? initialCategory : (initialCategory ? [initialCategory] : []);
+        setSelectedCategories(newInitial as string[]);
+    }, [initialCategory]);
 
     const toggleCategory = (category: string) => {
-        setSelectedCategories(prev => 
-            prev.includes(category) 
-                ? prev.filter(c => c !== category)
-                : [...prev, category]
-        );
+        setSelectedCategories(prev => {
+            const next = prev.includes(category) ? prev.filter(c => c !== category) : [...prev, category];
+            const params = new URLSearchParams(searchParams);
+            if (next.length > 0) {
+                params.set('category', next.join(','));
+            } else {
+                params.delete('category');
+            }
+            setSearchParams(params, { replace: true });
+            return next;
+        });
     };
 
     const categories = [

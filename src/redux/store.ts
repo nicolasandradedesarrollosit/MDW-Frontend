@@ -6,6 +6,7 @@ import modalReducer from "./modal/sliceModal";
 import userReducer from "./users/sliceUsers";
 import categoriesReducer from "./categories/sliceCategories";
 import productSizeReducer from "./productSize/sliceProductSize";
+import orderReducer from './orders/sliceOrders';
 
 export const store = configureStore({
     reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
         users: userReducer,
         categories: categoriesReducer,
         productSize: productSizeReducer,
+        order: orderReducer,
     },
 });
 
