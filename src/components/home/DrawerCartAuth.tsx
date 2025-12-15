@@ -4,7 +4,6 @@ import { useDrawer } from "@/hooks/useDrawer";
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { useSelector } from "react-redux";
 import { addToast } from "@heroui/toast";
-import { sentToOrder } from "@/services/cartService";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
